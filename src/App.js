@@ -1,68 +1,78 @@
 import './App.css';
 import { useState } from 'react';
-import TodoFooter from './TasksFooter';
-import TodoHeader from './TasksForm';
-import TodoList from './TasksList';
+import TasksFooter from './TasksFooter';
+import TasksForm from './TasksForm';
+import TasksList from './TasksList';
+import { Col, Row, Card } from 'antd';
+
 
 function App() {
-  const todoList = [
+  const tasksList = [
     {
       id: 1,
-      name: 'ReactJs',
+      title: 'ReactJs',
+      description: 'Optional field',
       isCompleted: false
     },
     {
       id: 2,
-      name: 'Angular',
+      title: 'Angular',
+      description: 'Optional field',
       isCompleted: false
     },
     {
       id: 3,
-      name: 'VueJs',
+      title: 'VueJs',
+      description: 'Optional field',
       isCompleted: false
     },
-    {
-      id: 4,
-      name: 'Typescript',
-      isCompleted: false
-    }
   ];
-  const [todos, setTodos] = useState(todoList);
+  const [todos, setTodos] = useState(tasksList);
 
   return (
     <div className="App">
-      <TodoHeader onAddText={(text) => {
-        setTodos(
-         [ ...todos,
-          {
-            id: Math.random(),
-            name: text,
-            isCompleted: false
-            }
-          ]
-        )
-      }}/>
-      <TodoList todos={todos}
-        onChange={(newTodo) => {
-          setTodos(todos.map(todo => {
-            if (todo.id === newTodo.id) {
-              return newTodo;
-            }
-            return todo;
-          })
-          )
-        }}
-        onDelete={(todo) => {
-          setTodos(todos.filter(item => {
-            return item.id !== todo.id
-          }))
-        }}/>
-      <TodoFooter todos={todos}
-        onCompletedClear={() => {
-          setTodos(
-            todos.filter(todo => !todo.isCompleted)
-          )
-        }}/>
+      <Row>
+        <Col span={12} offset={6}>
+          <Card title="Tasks List" style={{ width: 500 }}>
+            <TasksForm onAddText={(text) => {
+
+              setTodos(
+                [...todos,
+                {
+                  id: Math.random(),
+                  title: text,
+                  isCompleted: false
+                }
+                ]
+              )
+            }} />
+            <TasksList todos={todos}
+              onChange={(newTodo) => {
+
+                setTodos(todos.map(todo => {
+                  if (todo.id === newTodo.id) {
+                    return newTodo;
+                  }
+                  return todo;
+                })
+                )
+                console.log(todos);
+              }}
+              onDelete={(todo) => {
+                setTodos(todos.filter(item => {
+                  return item.id !== todo.id
+                }))
+              }} />
+            <TasksFooter todos={todos}
+              onCompletedClear={() => {
+                setTodos(
+                  todos.filter(todo => !todo.isCompleted)
+                )
+              }} />
+          </Card>
+        </Col>
+      </Row>
+
     </div>
   );
 }
