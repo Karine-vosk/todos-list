@@ -1,13 +1,13 @@
 import { Card, Flex, Button } from 'antd';
 
-const TasksFooter = ({ todos, onCompletedClear }) => {
-    const completedLength = todos.filter((todo) => todo.isCompleted).length;
+const TasksFooter = ({ tasks, onCompletedClear }) => {
+    const completedLength = tasks.filter((task) => task.isCompleted).length;
     return (
         <div>
             <Card >
                 <Flex align="cebter" justify="space-between">
                     <span>
-                        {completedLength} / {todos.length} Completed
+                        {completedLength} / {tasks.length} Completed
                     </span>
                     <Button onClick={onCompletedClear} type="default">
                         Clear

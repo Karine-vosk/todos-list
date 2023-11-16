@@ -1,18 +1,20 @@
-import { Checkbox, Button, Flex, Divider } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Button, Checkbox, Divider, Flex } from 'antd';
 
-const TasksItem = ({ todo, onChange, onDelete, onEdit }) => {
+const TasksItem = ({ task, onChange, onDelete, onEdit }) => {
     return (
         <div>
             <Flex gap="middle" justify="space-between" align="center">
                 <Checkbox onChange={(e) => {
 
                     onChange({
-                        ...todo,
+                        ...task,
+
                         isCompleted: e.target.checked
                     })
                 }}>
-                    {todo.title}
+                    {task.title}
+
                 </Checkbox>
                 <div>
                     <Button type="link" icon={<EditOutlined />}>
@@ -20,7 +22,7 @@ const TasksItem = ({ todo, onChange, onDelete, onEdit }) => {
                     </Button>
                     <Button type="link" icon={<DeleteOutlined />}
                         onClick={() => {
-                onDelete(todo);
+                onDelete(task);
             }}></Button>
                 </div>
             </Flex>
@@ -28,24 +30,24 @@ const TasksItem = ({ todo, onChange, onDelete, onEdit }) => {
 
             {/* <label>
                 <input type="checkbox"
-                    checked={todo.isCompleted}
+                    checked={task.isCompleted}
                     onChange={(e) => {
 
                         onChange({
-                            ...todo,
+                            ...task,
                             isCompleted: e.target.checked
                         })
                     }} />
-                {todo.title}
+                {task.title}
             </label> */}
 
             {/* <button onClick={() => {
-                onEdit(todo);
+                onEdit(task);
             }}>
                 Edit Save
             </button>
             <button onClick={() => {
-                onDelete(todo);
+                onDelete(task);
             }}>
                 X
             </button> */}

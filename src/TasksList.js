@@ -1,12 +1,12 @@
 import TasksItem from "./TasksItem";
 
-const TasksList = ({ todos, onChange, onDelete }) => {
+const TasksList = ({ tasks, onChange, onDelete }) => {
     return (
         <div>
             {
-                todos.map((todo) => {
+                tasks.map((task) => {
                     return (
-                        <TasksItem key={todo.id} todo={todo} onChange={onChange} onDelete={onDelete}/>
+                        <TasksItem key={task.id} task={task} onChange={onChange} onDelete={onDelete}/>
                     )
                 })
             }
