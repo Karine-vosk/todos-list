@@ -5,15 +5,12 @@ import TasksForm from './TasksForm';
 import TasksList from './TasksList';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import {selectTasks} from './app/features/task/taskSlice';
-import {addTask, updateTask, deleteTask, markCompleted} from './app/features/task/actionCreators';
+import {selectTasks, addTask, deleteTask, onChangeTask, completedTask} from './app/features/task/tasksSlice';
 
 function App() {
-
- const tasksList = useSelector(selectTasks);
+  const tasksList = useSelector(selectTasks);
 
  const dispatch = useDispatch();
-
 
   return (
     <div className="App">
@@ -21,19 +18,21 @@ function App() {
         <Col span={12} offset={6}>
           <Card title="Tasks List" style={{ width: 500 }}>
             <TasksForm onAddText={(title) => {
-              dispatch(addTask(title));
+              dispatch(addTask({title}));
             }} />
             <TasksList tasks={tasksList}
               onChange={(newTask) => {
-                dispatch(updateTask(newTask.id, newTask.isCompleted));
+                dispatch(onChangeTask({id: newTask.id, isCompleted: newTask.isCompleted}));
               }}
               onDelete={(task) => {
-                dispatch(deleteTask(task.id));
-              }} />
+                dispatch(deleteTask({id: task.id}));
+            }} 
+            />
             <TasksFooter tasks={tasksList}
               onCompletedClear={() => {
-                dispatch(markCompleted());
-              }} />
+                dispatch(completedTask());
+            }}
+            />
           </Card>
         </Col>
       </Row>
