@@ -1,33 +1,36 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = [
-  {
-    id: 1,
-    title: 'ReactJs',
-    description: '',
-    isCompleted: false,
-  },
-  {
-    id: 2,
-    title: 'Angular',
-    description: '',
-    isCompleted: false,
-  },
-  {
-    id: 3,
-    title: 'VueJs',
-    description: 'Optional field',
-    isCompleted: false,
-  },
-];
+const initialState =
+{
+  tasks: [
+    {
+      id: 1,
+      title: 'ReactJs',
+      description: '',
+      isCompleted: false,
+    },
+    {
+      id: 2,
+      title: 'Angular',
+      description: '',
+      isCompleted: false,
+    },
+    {
+      id: 3,
+      title: 'VueJs',
+      description: 'Optional field',
+      isCompleted: false,
+    },
+  ],
+  drafts: []
+};
 
 export const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
     addTask: (state, action) => {
-      debugger
-      state.push({
+      state.tasks.push({
         id: Math.random(),
         title: action.payload.task.title,
         description: action.payload.task.description,
@@ -36,29 +39,42 @@ export const tasksSlice = createSlice({
       });
     },
     deleteTask: (state, action) => {
-      // Use filter with assignment to update the state
-      return state.filter(task => task.id !== action.payload.id);
+      const { id } = action.payload;
+      const deletedTask = state.tasks.find(task => task.id === id);
+      if (deletedTask) {
+        state.drafts.push(deletedTask);
+        state.tasks = state.tasks.filter(task => task.id !== id);
+      }
     },
-    onChangeTask: (state, action) => {
-      // Use map with assignment to update the state
-      return state.map(task =>
-        task.id === action.payload.id
-          ? { ...task, isCompleted: action.payload.isCompleted }
+    updateTask: (state, action) => {
+      const { id, isCompleted, title } = action.payload;
+
+      state.tasks = state.tasks.map(task =>
+        task.id === id
+          ? { ...task, isCompleted, title }
           : task
       );
     },
     completedTask: (state, action) => {
-      // Use filter with assignment to update the state
-      return state.filter(task => !task.isCompleted);
+      const deletedTasks = state.tasks.filter(task => {
+        return task.isCompleted
+      });
+      state.tasks = state.tasks.filter(task => !task.isCompleted);
+      state.drafts.push(...deletedTasks);
+    },
+    restoreDeletedTask: (state, action) => {
+      const { id } = action.payload;
+      const restoredTask = state.drafts.find(task => task.id === id);
+      if (restoredTask) {
+        state.tasks.push(restoredTask);
+        state.drafts = state.drafts.filter(task => task.id !== id);
+      }
     },
   },
 });
 
-console.log('Initial state:', initialState);
+export const { addTask, deleteTask, updateTask, completedTask, restoreDeletedTask } = tasksSlice.actions;
+export const selectTasks = (state) =>  state.tasks.tasks;
+export const selectDeletedTasks = state => state.tasks.drafts;
 
-export const { addTask, deleteTask, onChangeTask, completedTask } = tasksSlice.actions;
-
-export const selectTasks = (state) => state.tasks;
-
-
-export default tasksSlice.reducer; // Export the reducer as default
+export default tasksSlice.reducer; 

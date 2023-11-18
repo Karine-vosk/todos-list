@@ -14,7 +14,6 @@ const TasksFooter = ({ tasks, onCompletedClear }) => {
                     </Button>
                 </Flex>
             </Card>
-
         </div>
     )
 }
