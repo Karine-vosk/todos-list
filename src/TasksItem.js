@@ -14,6 +14,8 @@ const TasksItem = ({ task, onChange, onDelete, onEdit }) => {
                     })
                 }}>
                     {task.title}
+                    {task?.description}
+                    { task?.deadline}
 
                 </Checkbox>
                 <div>

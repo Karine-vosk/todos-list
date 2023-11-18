@@ -17,9 +17,11 @@ function App() {
       <Row>
         <Col span={12} offset={6}>
           <Card title="Tasks List" style={{ width: 500 }}>
-            <TasksForm onAddText={(title) => {
-              dispatch(addTask({title}));
-            }} />
+            <TasksForm  onAddText={(task) => {
+    debugger;
+    console.log("Callback Values:", task.title, task.description, task.deadline);
+    dispatch(addTask({task }));
+}} />
             <TasksList tasks={tasksList}
               onChange={(newTask) => {
                 dispatch(onChangeTask({id: newTask.id, isCompleted: newTask.isCompleted}));

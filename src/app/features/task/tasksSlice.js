@@ -4,13 +4,13 @@ const initialState = [
   {
     id: 1,
     title: 'ReactJs',
-    description: 'Optional field',
+    description: '',
     isCompleted: false,
   },
   {
     id: 2,
     title: 'Angular',
-    description: 'Optional field',
+    description: '',
     isCompleted: false,
   },
   {
@@ -26,10 +26,12 @@ export const tasksSlice = createSlice({
   initialState,
   reducers: {
     addTask: (state, action) => {
+      debugger
       state.push({
         id: Math.random(),
-        title: action.payload.title,
-        description: action.payload.description || 'Optional field',
+        title: action.payload.task.title,
+        description: action.payload.task.description,
+        deadline: action.payload.task.deadline,
         isCompleted: false,
       });
     },
@@ -56,9 +58,7 @@ console.log('Initial state:', initialState);
 
 export const { addTask, deleteTask, onChangeTask, completedTask } = tasksSlice.actions;
 
-export const selectTasks = (state) => { 
-  return state.tasks;
-};
+export const selectTasks = (state) => state.tasks;
 
 
 export default tasksSlice.reducer; // Export the reducer as default
